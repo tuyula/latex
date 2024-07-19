@@ -1,0 +1,75 @@
+\documentclass[tikz,border=10pt]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning}
+
+\begin{document}
+
+\begin{tikzpicture}[node distance=1.5cm, auto]
+  % 定义节点样式
+  \tikzstyle{block} = [rectangle, fill=blue!20, text width=4em, text centered, minimum height=1.5em, draw]
+  \tikzstyle{arrow} = [thick,->,>=stealth]
+
+  % 绘制节点
+  \node (Control) {控制单元};
+  \node (MemtoReg) [below left=of Control] {MemtoReg};
+  \node (RegDst) [below right=of Control] {RegDst};
+  \node (ALUControl) [below=of Control] {ALUControl};
+  \node (PCSrc) [below right=of ALUControl] {PCSrc};
+
+  \node (Branch) [below left=of ALUControl] {Branch};
+  \node (ALUSrc) [below right=of ALUControl] {ALUSrc};
+
+  \node (MemWrite) [below=of ALUControl] {MemWrite};
+  \node (RegWrite) [below=of MemWrite] {RegWrite};
+
+  \node (Instr) [above left=of Control] {指令};
+  \node (ReadData) [below=of Instr] {读取数据};
+
+  \node (WriteData) [below right=of MemWrite] {写入数据};
+  \node (WriteReg) [below right=of RegWrite] {写寄存器};
+
+  \node (ALUResult) [right=of ALUSrc] {ALU结果};
+
+  % 绘制连接线
+  \draw [arrow] (Control) -- (MemtoReg);
+  \draw [arrow] (Control) -- (RegDst);
+  \draw [arrow] (Control) -- (ALUControl);
+  \draw [arrow] (ALUControl) -- (PCSrc);
+  \draw [arrow] (ALUControl) -- (Branch);
+  \draw [arrow] (ALUControl) -- (ALUSrc);
+  \draw [arrow] (MemWrite) -- (RegWrite);
+  \draw [arrow] (RegWrite) -- (WriteData);
+  \draw [arrow] (RegWrite) -- (WriteReg);
+
+  \draw [arrow] (Instr) -- ++(0,-1) -- (ReadData);
+  \draw [arrow] (ReadData) -- ++(0,-1) -- (MemWrite);
+
+  \draw [arrow] (ALUSrc) -- (ALUResult);
+
+  % 添加额外的控制信号
+  \node (CLK) [above right=of Control] {CLK};
+  \node (Zero) [above right=of CLK] {Zero};
+  \node (Signlmm) [above right=of Zero] {SignImm};
+  \node (PCPlus4) [above right=of Signlmm] {PC+4};
+  \node (PCBranch) [above right=of PCPlus4] {PCBranch};
+
+  \draw [arrow] (CLK) -- (Zero);
+  \draw [arrow] (Zero) -- (Signlmm);
+  \draw [arrow] (Signlmm) -- (PCPlus4);
+  \draw [arrow] (PCPlus4) -- (PCBranch);
+
+  % 添加数据路径
+  \node (SrcA) [below left=of ALUSrc] {SrcA};
+  \node (SrcB) [below right=of ALUSrc] {SrcB};
+  \node (A) [above=of SrcA] {A};
+  \node (B) [above=of SrcB] {B};
+
+  \draw [arrow] (A) -- (SrcA);
+  \draw [arrow] (B) -- (SrcB);
+  \draw [arrow] (SrcA) -- (ALUSrc);
+  \draw [arrow] (SrcB) -- (ALUSrc);
+  \draw [arrow] (ALUResult) -- (WriteData);
+
+\end{tikzpicture}
+
+\end{document}
