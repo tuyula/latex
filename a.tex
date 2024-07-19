@@ -10,7 +10,7 @@
   \tikzstyle{arrow} = [thick,->,>=stealth]
 
   % 绘制节点
-  \node (Control) {控制单元};
+  \node (Control) {Control};
   \node (MemtoReg) [below left=of Control] {MemtoReg};
   \node (RegDst) [below right=of Control] {RegDst};
   \node (ALUControl) [below=of Control] {ALUControl};
@@ -22,13 +22,13 @@
   \node (MemWrite) [below=of ALUControl] {MemWrite};
   \node (RegWrite) [below=of MemWrite] {RegWrite};
 
-  \node (Instr) [above left=of Control] {指令};
-  \node (ReadData) [below=of Instr] {读取数据};
+  \node (Instr) [above left=of Control] {Instr};
+  \node (ReadData) [below=of Instr] {ReadData};
 
-  \node (WriteData) [below right=of MemWrite] {写入数据};
-  \node (WriteReg) [below right=of RegWrite] {写寄存器};
+  \node (WriteData) [below right=of MemWrite] {WriteData};
+  \node (WriteReg) [below right=of RegWrite] {WriteReg};
 
-  \node (ALUResult) [right=of ALUSrc] {ALU结果};
+  \node (ALUResult) [right=of ALUSrc] {ALUResult};
 
   % 绘制连接线
   \draw [arrow] (Control) -- (MemtoReg);
